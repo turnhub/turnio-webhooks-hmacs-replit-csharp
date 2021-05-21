@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 namespace Mti
 {
 	class HttpServer
-	{ 
+	{
 		static Encoding enc = Encoding.UTF8;
 
 
@@ -28,17 +28,17 @@ namespace Mti
 		public static void Main (string[] args)
 		{
 			TcpListener listener = new TcpListener (IPAddress.Any, 8080);
-			listener.Start (); 
+			listener.Start ();
 
 			while (true) {
-				TcpClient client = listener.AcceptTcpClient (); 
+				TcpClient client = listener.AcceptTcpClient ();
 				Console.WriteLine ("Request Incoming");
-			 
-				NetworkStream stream = client.GetStream (); 
+
+				NetworkStream stream = client.GetStream ();
 				string request = ToString (stream);
 
-        string received_hmac_signature = "Not Resolved";
-        string body = "Not Resolved";
+        string received_hmac_signature = "Not Received";
+        string body = "Not Received";
 
         foreach (string line in request.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
         {
@@ -60,20 +60,20 @@ namespace Mti
 
 				StringBuilder builder = new StringBuilder ();
         if (received_hmac_signature == calculated_hmac_signature) {
-          builder.AppendLine (@"HTTP/1.1 200 OK"); 
+          builder.AppendLine (@"HTTP/1.1 200 OK");
 				  builder.AppendLine (@"Content-Type: text/html");
 				  builder.AppendLine (@"");
           builder.AppendLine (@"Valid HMAC received");
         } else {
-          builder.AppendLine (@"HTTP/1.1 403 OK"); 
+          builder.AppendLine (@"HTTP/1.1 403 OK");
 				  builder.AppendLine (@"Content-Type: text/html");
 				  builder.AppendLine (@"");
-          builder.AppendLine (@"Invalid HMAC received"); 
+          builder.AppendLine (@"Invalid HMAC received");
         }
-				
+
 				Console.WriteLine ("Responce:");
 				Console.WriteLine (builder.ToString ());
-				 
+
 				byte[] sendBytes = enc.GetBytes (builder.ToString ());
 				stream.Write (sendBytes, 0, sendBytes.Length);
 
@@ -81,7 +81,7 @@ namespace Mti
 				client.Close ();
 			}
 		}
-		 
+
 		public static string  ToString (NetworkStream stream)
 		{
 			MemoryStream memoryStream = new MemoryStream ();
@@ -92,10 +92,10 @@ namespace Mti
 				if (size == 0) {
 					Console.WriteLine ("Client Disconnected");
 					Console.ReadLine ();
-					return  null; 
-				} 
+					return  null;
+				}
 				memoryStream.Write (data, 0, size);
-			} while ( stream.DataAvailable); 
+			} while ( stream.DataAvailable);
 			return enc.GetString (memoryStream.ToArray ());
 		}
 	}
