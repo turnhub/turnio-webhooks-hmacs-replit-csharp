@@ -1,7 +1,7 @@
-# turnio-webhooks-replit
+# turnio-webhooks-hmac-replit-csharp
 
-An example Turn.io webhook integration on Replit. This will return with an automated reply to specific messages being received via webhooks.
+An Turn.io webhook HMAC signature verification in C# example.
 
-For this to work you need to set a Turn API token named `TOKEN` as a secret in Replit.
+For this to work you need to set a Turn webhook secret named `SECRET` as a secret in Replit.
 
-[![Run on Repl.it](https://repl.it/badge/github/turnhub/turnio-webhooks-replit)](https://repl.it/github/turnhub/turnio-webhooks-replit)
+[![Run on Repl.it](https://repl.it/badge/github/turnhub/turnio-webhooks-hmac-replit-csharp)](https://repl.it/github/turnhub/turnio-webhooks-hmac-replit-csharp)
